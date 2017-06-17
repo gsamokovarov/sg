@@ -7,11 +7,11 @@ import (
 
 var (
 	client = &Client{
-		ApiKey: os.Getenv("SG_APIKEY"),
-		ApiUrl: "https://api.sendgrid.com/v3/mail/send",
+		APIKey: os.Getenv("SG_APIKEY"),
+		APIURL: "https://api.sendgrid.com/v3/mail/send",
 	}
 
-	clientMu = sync.Mutex
+	clientMu = sync.Mutex{}
 )
 
 // Send sends a transactional mail as defined in the passed in Mail object.
@@ -22,7 +22,7 @@ func Send(mail *Mail) error {
 // Setup configures the default global SendGrid client.
 func Setup(c *Client) {
 	clientMu.Lock()
-	defer cluentMu.Unlock()
+	defer clientMu.Unlock()
 
 	client = c
 }

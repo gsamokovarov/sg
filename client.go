@@ -10,8 +10,8 @@ import (
 
 // Client represents a SendGrid API v3 client.
 type Client struct {
-	ApiKey string
-	ApiUrl string
+	APIKey string
+	APIURL string
 	Tracer Tracer
 
 	client http.Client
@@ -51,7 +51,7 @@ func (c *Client) buildRequest(mail *Mail) (request *http.Request, err error) {
 		return
 	}
 
-	request.Header.Add("Authorization", "Bearer "+c.ApiKey)
+	request.Header.Add("Authorization", "Bearer "+c.APIKey)
 	request.Header.Add("Content-Type", "application/json")
 
 	return
@@ -80,7 +80,7 @@ func (c *Client) dumpResponse(response *http.Response) {
 // NewClient creates a new client with a SendGrid API key.
 func NewClient(apiKey string) *Client {
 	return &Client{
-		ApiKey: apiKey,
-		ApiUrl: "https://api.sendgrid.com/v3/mail/send",
+		APIKey: apiKey,
+		APIURL: "https://api.sendgrid.com/v3/mail/send",
 	}
 }

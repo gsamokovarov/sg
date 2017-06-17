@@ -12,13 +12,12 @@ type H map[string]string
 type Mail struct {
 	From          string
 	To            string
-	TemplateId    string
+	TemplateID    string
 	Substitutions H
 }
 
-// Implements the json.Marshaler interface.
+// MarshalJSON implements the json.Marshaler interface.
 func (m *Mail) MarshalJSON() ([]byte, error) {
-
 	// Don't send nil substitutions, the SendGrid API won't like it.
 	substitutions := map[string]string{}
 	if m.Substitutions != nil {
@@ -29,10 +28,10 @@ func (m *Mail) MarshalJSON() ([]byte, error) {
 		From             H      `json:"from"`
 		Personalizations []o    `json:"personalizations"`
 		Content          []H    `json:"content"`
-		TemplateId       string `json:"template_id"`
+		TemplateID       string `json:"template_id"`
 	}{
 		From:             H{"email": m.From},
-		TemplateId:       m.TemplateId,
+		TemplateID:       m.TemplateId,
 		Content:          []H{{"type": "text/html", "value": "<html><body></body></html>"}},
 		Personalizations: []o{{"to": []H{{"email": m.To}}, "substitutions": substitutions}},
 	})
