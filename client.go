@@ -47,7 +47,7 @@ func (c *Client) buildRequest(mail *Mail) (request *http.Request, err error) {
 		return
 	}
 
-	if request, err = http.NewRequest("POST", c.ApiUrl, buf); err != nil {
+	if request, err = http.NewRequest("POST", c.APIURL, buf); err != nil {
 		return
 	}
 

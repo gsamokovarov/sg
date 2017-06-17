@@ -7,7 +7,7 @@ import (
 
 var (
 	client = &Client{
-		APIKey: os.Getenv("SG_APIKEY"),
+		APIKey: os.Getenv("SG_API_KEY"),
 		APIURL: "https://api.sendgrid.com/v3/mail/send",
 	}
 

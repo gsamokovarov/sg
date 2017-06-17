@@ -9,7 +9,7 @@ import (
 
 func TestMail_MarshalJSON_WithoutSubscriptions(t *testing.T) {
 	mail := &Mail{
-		TemplateId: "e0d26988-d1d7-41ad-b1eb-4c4b37125893",
+		TemplateID: "e0d26988-d1d7-41ad-b1eb-4c4b37125893",
 		From:       "from@example.com",
 		To:         "to@example.com",
 	}
@@ -28,7 +28,7 @@ func TestMail_MarshalJSON_WithoutSubscriptions(t *testing.T) {
 
 func TestMail_MarshalJSON_WithSubscriptions(t *testing.T) {
 	mail := &Mail{
-		TemplateId:    "e0d26988-d1d7-41ad-b1eb-4c4b37125893",
+		TemplateID:    "e0d26988-d1d7-41ad-b1eb-4c4b37125893",
 		From:          "from@example.com",
 		To:            "to@example.com",
 		Substitutions: H{"SUB": "value"},

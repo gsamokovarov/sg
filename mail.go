@@ -31,7 +31,7 @@ func (m *Mail) MarshalJSON() ([]byte, error) {
 		TemplateID       string `json:"template_id"`
 	}{
 		From:             H{"email": m.From},
-		TemplateID:       m.TemplateId,
+		TemplateID:       m.TemplateID,
 		Content:          []H{{"type": "text/html", "value": "<html><body></body></html>"}},
 		Personalizations: []o{{"to": []H{{"email": m.To}}, "substitutions": substitutions}},
 	})
