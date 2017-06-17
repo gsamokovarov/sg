@@ -76,3 +76,11 @@ func (c *Client) dumpResponse(response *http.Response) {
 		c.Tracer.Printf("\n%s\n", dump)
 	}
 }
+
+// NewClient creates a new client with a SendGrid API key.
+func NewClient(apiKey string) *Client {
+	return &Client{
+		ApiKey: apiKey,
+		ApiUrl: "https://api.sendgrid.com/v3/mail/send",
+	}
+}

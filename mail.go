@@ -2,18 +2,22 @@ package sg
 
 import "encoding/json"
 
+type o map[string]interface{}
+
+// H is a shortcut for map[string]string. In Go 1.9 this will become a type
+// alias.
+type H map[string]string
+
 // Mail represents a SendGrid transactional mailer.
 type Mail struct {
 	From          string
 	To            string
 	TemplateId    string
-	Substitutions map[string]string
+	Substitutions H
 }
 
 // Implements the json.Marshaler interface.
 func (m *Mail) MarshalJSON() ([]byte, error) {
-	type h map[string]string
-	type o map[string]interface{}
 
 	// Don't send nil substitutions, the SendGrid API won't like it.
 	substitutions := map[string]string{}
@@ -22,14 +26,14 @@ func (m *Mail) MarshalJSON() ([]byte, error) {
 	}
 
 	return json.Marshal(&struct {
-		From             h      `json:"from"`
+		From             H      `json:"from"`
 		Personalizations []o    `json:"personalizations"`
-		Content          []h    `json:"content"`
+		Content          []H    `json:"content"`
 		TemplateId       string `json:"template_id"`
 	}{
-		From:             h{"email": m.From},
+		From:             H{"email": m.From},
 		TemplateId:       m.TemplateId,
-		Content:          []h{{"type": "text/html", "value": "<html><body></body></html>"}},
-		Personalizations: []o{{"to": []h{{"email": m.To}}, "substitutions": substitutions}},
+		Content:          []H{{"type": "text/html", "value": "<html><body></body></html>"}},
+		Personalizations: []o{{"to": []H{{"email": m.To}}, "substitutions": substitutions}},
 	})
 }
