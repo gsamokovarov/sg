@@ -5,7 +5,7 @@ dependencies.
 
 ## Usage
 
-The simplest to send a mail is through `sg.Send` which uses a global client:
+The simplest way to send a mail is through `sg.Send` which uses a global client:
 
 ```go
 package main

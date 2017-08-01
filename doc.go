@@ -1,6 +1,6 @@
 // Package sg provides SendGrid APIv3 client for sending transactional mails.
 //
-// The simplest to send a mail is through `sg.Send` which uses a global client:
+// The simplest way to send a mail is through `sg.Send` which uses a global client:
 //
 //	func main() {
 //		// If you have your key in the SG_API_KEY environment variable, you may
