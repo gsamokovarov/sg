@@ -1,4 +1,5 @@
-// Package sg provides SendGrid APIv3 client for sending transactional mails.
+// Package sg provides simple transactional mails clients for SendGrid and
+// SparkPost.
 //
 // The simplest way to send a mail is through `sg.Send` which uses a global client:
 //

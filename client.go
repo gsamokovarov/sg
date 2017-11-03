@@ -2,16 +2,16 @@ package sg
 
 import (
 	"bytes"
-	"encoding/json"
 	"errors"
 	"net/http"
 )
 
 // Client represents a SendGrid API v3 client.
 type Client struct {
-	APIKey string
-	APIURL string
-	Tracer Tracer
+	APIKey  string
+	APIURL  string
+	Service Service
+	Tracer  Tracer
 
 	client http.Client
 }
@@ -39,28 +39,39 @@ func (c *Client) Send(mail *Mail) error {
 	return nil
 }
 
-func (c *Client) buildRequest(mail *Mail) (request *http.Request, err error) {
-	buf := bytes.NewBuffer([]byte{})
-
-	if err = json.NewEncoder(buf).Encode(mail); err != nil {
-		return
+func (c *Client) buildRequest(mail *Mail) (*http.Request, error) {
+	data, err := c.Service.Serialize(mail)
+	if err != nil {
+		return nil, err
 	}
 
-	if request, err = http.NewRequest("POST", c.APIURL, buf); err != nil {
-		return
+	request, err := http.NewRequest("POST", c.APIURL, bytes.NewBuffer(data))
+	if err != nil {
+		return nil, err
 	}
 
-	request.Header.Add("Authorization", "Bearer "+c.APIKey)
+	request.Header.Add("Authorization", c.Service.Authorize(c.APIKey))
 	request.Header.Add("Content-Type", "application/json")
 	request.Header.Add("Accept", "application/json")
 
-	return
+	return request, nil
 }
 
 // NewClient creates a new client with a SendGrid API key.
-func NewClient(apiKey string) *Client {
+var NewClient = NewSendGridClient
+
+// NewSendGridClient creates a new client with a SendGrid API key.
+func NewSendGridClient(apiKey string) *Client {
 	return &Client{
 		APIKey: apiKey,
 		APIURL: "https://api.sendgrid.com/v3/mail/send",
+	}
+}
+
+// NewSparkPostClient creates a new client with a SendGrid API key.
+func NewSparkPostClient(apiKey string) *Client {
+	return &Client{
+		APIKey: apiKey,
+		APIURL: "https://api.sparkpost.com/api/v1/transmissions?num_rcpt_errors=3",
 	}
 }
