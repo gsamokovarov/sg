@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"net/http/httputil"
 )
 
 // Client represents a SendGrid API v3 client.
@@ -24,14 +23,14 @@ func (c *Client) Send(mail *Mail) error {
 		return err
 	}
 
-	c.dumpRequest(request)
+	dumpRequest(c.Tracer, request)
 
 	response, err := c.client.Do(request)
 	if err != nil {
 		return err
 	}
 
-	c.dumpResponse(response)
+	dumpResponse(c.Tracer, response)
 
 	if response.StatusCode > 299 {
 		return errors.New("bad request")
@@ -53,28 +52,9 @@ func (c *Client) buildRequest(mail *Mail) (request *http.Request, err error) {
 
 	request.Header.Add("Authorization", "Bearer "+c.APIKey)
 	request.Header.Add("Content-Type", "application/json")
+	request.Header.Add("Accept", "application/json")
 
 	return
-}
-
-func (c *Client) dumpRequest(request *http.Request) {
-	if c.Tracer == nil {
-		return
-	}
-
-	if dump, err := httputil.DumpRequest(request, true); err == nil {
-		c.Tracer.Printf("\n%s\n", dump)
-	}
-}
-
-func (c *Client) dumpResponse(response *http.Response) {
-	if c.Tracer == nil {
-		return
-	}
-
-	if dump, err := httputil.DumpResponse(response, true); err == nil {
-		c.Tracer.Printf("\n%s\n", dump)
-	}
 }
 
 // NewClient creates a new client with a SendGrid API key.
