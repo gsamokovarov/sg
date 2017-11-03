@@ -61,17 +61,19 @@ func (c *Client) buildRequest(mail *Mail) (*http.Request, error) {
 var NewClient = NewSendGridClient
 
 // NewSendGridClient creates a new client with a SendGrid API key.
-func NewSendGridClient(apiKey string) *Client {
+func NewSendGridClient(apiKey string) Sender {
 	return &Client{
-		APIKey: apiKey,
-		APIURL: "https://api.sendgrid.com/v3/mail/send",
+		APIKey:  apiKey,
+		APIURL:  "https://api.sendgrid.com/v3/mail/send",
+		Service: new(SendGridService),
 	}
 }
 
 // NewSparkPostClient creates a new client with a SendGrid API key.
-func NewSparkPostClient(apiKey string) *Client {
+func NewSparkPostClient(apiKey string) Sender {
 	return &Client{
-		APIKey: apiKey,
-		APIURL: "https://api.sparkpost.com/api/v1/transmissions?num_rcpt_errors=3",
+		APIKey:  apiKey,
+		APIURL:  "https://api.sparkpost.com/api/v1/transmissions?num_rcpt_errors=3",
+		Service: new(SparkPostService),
 	}
 }
