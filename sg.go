@@ -6,10 +6,7 @@ import (
 )
 
 var (
-	client Sender = &Client{
-		APIKey: os.Getenv("SG_API_KEY"),
-		APIURL: "https://api.sendgrid.com/v3/mail/send",
-	}
+	client = NewSparkPostClient(os.Getenv("SG_API_KEY"))
 
 	clientMu = sync.Mutex{}
 )

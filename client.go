@@ -69,7 +69,7 @@ func NewSendGridClient(apiKey string) Sender {
 	}
 }
 
-// NewSparkPostClient creates a new client with a SendGrid API key.
+// NewSparkPostClient creates a new client with a SparkPost API key.
 func NewSparkPostClient(apiKey string) Sender {
 	return &Client{
 		APIKey:  apiKey,
