@@ -6,8 +6,7 @@ import (
 )
 
 var (
-	client = NewSparkPostClient(os.Getenv("SG_API_KEY"))
-
+	client   = NewSendGridClient(os.Getenv("SG_API_KEY"))
 	clientMu = sync.Mutex{}
 )
 
