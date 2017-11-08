@@ -11,7 +11,6 @@ type Client struct {
 	APIKey  string
 	APIURL  string
 	Service Service
-	Tracer  Tracer
 
 	client http.Client
 }
@@ -23,14 +22,10 @@ func (c *Client) Send(mail *Mail) error {
 		return err
 	}
 
-	dumpRequest(c.Tracer, request)
-
 	response, err := c.client.Do(request)
 	if err != nil {
 		return err
 	}
-
-	dumpResponse(c.Tracer, response)
 
 	if response.StatusCode > 299 {
 		return errors.New("bad request")
