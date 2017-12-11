@@ -24,4 +24,9 @@ func TestTestingClient(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.Equal(t, m, mail)
+
+	c.Empty()
+
+	_, err = c.Last()
+	assert.Error(t, err, "sg: inbox is empty")
 }
