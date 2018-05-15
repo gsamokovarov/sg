@@ -10,13 +10,18 @@ func (*SparkPostService) Authorize(key string) string { return key }
 
 // Serialize implements the Service interface.
 func (*SparkPostService) Serialize(m *Mail) ([]byte, error) {
+	content := o{"template_id": m.TemplateID}
+	if m.Attachments != nil {
+		content["attachments"] = m.Attachments
+	}
+
 	return json.Marshal(&struct {
 		Recipients       []H `json:"recipients"`
 		SubstitutionData H   `json:"substitution_data,omitempty"`
-		Content          H   `json:"content"`
+		Content          o   `json:"content"`
 	}{
 		Recipients:       []H{{"address": m.To}},
-		Content:          H{"template_id": m.TemplateID},
+		Content:          content,
 		SubstitutionData: m.Substitutions,
 	})
 }

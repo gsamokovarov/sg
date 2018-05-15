@@ -12,4 +12,5 @@ type Mail struct {
 	To            string
 	TemplateID    string
 	Substitutions H
+	Attachments   []H
 }
