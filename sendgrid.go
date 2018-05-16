@@ -31,10 +31,11 @@ func (*SendGridService) Serialize(m *Mail) ([]byte, error) {
 }
 
 // NewSendGridClient creates a new client with a SendGrid API key.
-func NewSendGridClient(apiKey string) Sender {
+func NewSendGridClient(apiKey string, tracers ...Tracer) Sender {
 	return &Client{
 		APIKey:  apiKey,
 		APIURL:  "https://api.sendgrid.com/v3/mail/send",
 		Service: new(SendGridService),
+		Tracer:  composedTracer{tracers},
 	}
 }

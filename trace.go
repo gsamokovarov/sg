@@ -8,7 +8,17 @@ import "net/http"
 //
 // The standard Logger implements this interface.
 type Tracer interface {
-	Printf(format string, v ...interface{})
+	Printf(string, ...interface{})
+}
+
+type composedTracer struct {
+	tracers []Tracer
+}
+
+func (ct composedTracer) Printf(format string, v ...interface{}) {
+	for _, t := range ct.tracers {
+		t.Printf(format, v)
+	}
 }
 
 var dumpRequest func(Tracer, *http.Request)
