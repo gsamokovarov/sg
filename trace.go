@@ -21,5 +21,5 @@ func (ct composedTracer) Printf(format string, v ...interface{}) {
 	}
 }
 
-var dumpRequest func(Tracer, *http.Request)
-var dumpResponse func(Tracer, *http.Response)
+var dumpRequest = func(Tracer, *http.Request) {}
+var dumpResponse = func(Tracer, *http.Response) {}
