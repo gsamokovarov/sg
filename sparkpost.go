@@ -10,7 +10,19 @@ func (*SparkPostService) Authorize(key string) string { return key }
 
 // Serialize implements the Service interface.
 func (*SparkPostService) Serialize(m *Mail) ([]byte, error) {
-	content := o{"template_id": m.TemplateID}
+	content := o{}
+	if m.TemplateID != "" {
+		content["template_id"] = m.TemplateID
+	}
+	if m.TemplateInline != "" {
+		content["html"] = m.TemplateInline
+	}
+	if m.Subject != "" {
+		content["subject"] = m.Subject
+	}
+	if m.From != "" {
+		content["from"] = o{"email": m.From, "name": m.FromName}
+	}
 	if m.Attachments != nil {
 		content["attachments"] = m.Attachments
 	}

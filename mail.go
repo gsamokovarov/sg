@@ -8,9 +8,13 @@ type H map[string]string
 
 // Mail represents a SendGrid transactional mailer.
 type Mail struct {
-	From          string
-	To            string
-	TemplateID    string
-	Substitutions H
-	Attachments   []H
+	From           string
+	FromName       string
+	To             string
+	ToName         string
+	TemplateID     string
+	TemplateInline string
+	Subject        string
+	Substitutions  H
+	Attachments    []H
 }
